@@ -24,35 +24,49 @@ if (!$query_mysql) {
 
         body {
             margin: 0;
-            padding: 0;
+            padding-top: 110px;
             background: #f8f9fa;
             background-size: cover;
         }
 
         .container-fluid {
             background-color: pink;
-            padding: 15px;
         }
 
-        .navbar-brand {
-            font-size: 30px;
+        .navbar {
+            /* background-color: rgba(0, 0, 0, 0.4);  */
+            background-color: pink;
+            position: absolute;
+        }
+
+        .navbar-brand:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-nav .nav-link {
             color: white;
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
         }
 
         .navbar-nav .nav-link.active {
-            color: white;
+            color:rgb(249, 147, 164);
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-text i {
             font-size: 20px;
             margin-right: 10px;
+        }
+
+        .navbar-text a{
+            text-decoration: none;
+            
         }
 
         .review {
@@ -195,18 +209,16 @@ if (!$query_mysql) {
     </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Floriest</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="../assets/logo toko.png" width="100" height=auto/> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home-admin.php">Home</a>
+                        <a class="nav-link" aria-current="page" href="home-admin.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="products-admin.php">Products</a>
@@ -215,19 +227,21 @@ if (!$query_mysql) {
                         <a class="nav-link" href="order-admin.php">Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="review-admin.php">Review</a>
+                        <a class="nav-link active" href="review-admin.php">Review</a>
                     </li>
-            </ul>
-            <span class="navbar-text">
-                <i class="fa-solid fa-user" style="color: white"></i>
-                Hi, Admin
-            </span>
+                </ul>
+                <span class="navbar-text">
+                <a  style="color: white;">
+                    <i class="fa-solid fa-user"></i>
+                    Hi, Admin
+                </a>
+                </span>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <div class="review">
-    <h1 class="heading">Flover's <span>Review</span></h1>
+    <h1 class="heading">💬 Treat <span>Talk 💬</span></h1>
     <div class="box-container"> 
         <?php while ($data = mysqli_fetch_assoc($query_mysql)) { ?>
             <div class="box">

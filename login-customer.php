@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floriest</title>
+    <title>Toko Kue Ibu Anin</title>
     <script src="https://kit.fontawesome.com/97216fb713.js" crossorigin="anonymous"></script>
 
     <style>
         * {
-            font-family: 'Lucida Sans';
+            font-family:'Lucida Sans';
         }
 
         body {
             margin: 0;
-            background-image: url('assets/bg-flower.jpg');
+            background-image: url('assets/Teks Paragraf Anda.png');
             background-size: cover;
             background-position: 75%;
             background-attachment: fixed;
@@ -21,6 +21,23 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+
+        /* Background image with blur */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('assets/Teks Paragraf Anda.png');
+            background-size: cover;
+            background-position: 75%;
+            background-attachment: fixed;
+            filter: blur(2px);
+            z-index: -1;
+            transform: translateZ(0); /* fix for some rendering issues */
         }
 
         .login {
@@ -46,7 +63,7 @@
         }
 
         .login-box h4 {
-            color: #000000;
+            color: #db7093;
             font-weight: bold;
             margin-bottom: 30px;
             font-size: 20px;
@@ -105,7 +122,19 @@
         }
 
         .btn-login input[type="submit"]:hover {
-            background-color: pink; 
+            background-color: #db7093; 
+        }
+
+        .buat-akun {
+            display: block;
+            margin-top: 1rem;
+            color: #7c2a40;
+            text-decoration: none;
+            font-weight: bold;
+            
+        }
+        .buat-akun:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -113,7 +142,7 @@
 <body>
     <div class="login">
         <div class="login-box">
-            <h4>Hello Flover. <br> Please Login!</h4>
+            <h4>Hello Sweety 👋 <br>Please Login!</h4>
             <form action="connect/login-cust.php" method="POST">
                 <div class="input-box">
                     <i class="fa-solid fa-user" style="color: rgb(249, 147, 164)"></i>
@@ -128,7 +157,7 @@
                 <input type="submit" value="Login">
                 </div>
             </form>
-            <a href="sign-up.php" class="buat-akun">Sign Up</a>
+            <a href="sign-up.php" class="buat-akun" style="font-size: 16px;">Sign Up</a>
         </div>
     </div>
 </body>

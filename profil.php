@@ -51,7 +51,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
         body {
             margin: 0;
-            background-image: url('assets/bg-flower.jpg');
+            background-image: url('assets/cake.png');
             background-size: cover;
             background-position: 75%;
             background-attachment: fixed;

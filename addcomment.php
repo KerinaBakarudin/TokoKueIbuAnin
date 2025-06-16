@@ -10,7 +10,7 @@
         }
 
         body {
-            background : url('assets/pict1.jpeg');
+            background : url('assets/cake.png');
             color: #333;
             margin: 0;
             padding: 20px;

@@ -13,7 +13,7 @@
 
         body {
             margin: 0;
-            background-image: url('assets/bg-flower.jpg');
+            background-image: url('assets/Teks Paragraf Anda.png');
             background-size: cover;
             background-position: 75%;
             background-attachment: fixed;

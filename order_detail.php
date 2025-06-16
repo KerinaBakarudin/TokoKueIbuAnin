@@ -64,7 +64,7 @@ $snapToken = \Midtrans\Snap::getSnapToken($params);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Pemesanan Bunga</title>
+    <title>Detail Pemesanan Kue</title>
     <style>
         * {
             font-family: 'Lucida Sans';
@@ -122,7 +122,7 @@ $snapToken = \Midtrans\Snap::getSnapToken($params);
 </head>
 <body>
 <div class="container">
-    <h2>Detail Pemesanan Bunga</h2>
+    <h2>Detail Pemesanan Kue</h2>
     <div class="detail-group">
         <label>Nama:</label>
         <span><?php echo $nama; ?></span>

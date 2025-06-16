@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Pemesanan Bunga</title>
+    <title>Formulir Pemesanan Kue</title>
     <style>
         * {
-            font-family: 'Lucida Sans';
+            font-family:'Lucida Sans';
+            box-sizing: border-box;
+
         }
 
         body {
+            background-image: url('assets/Teks Paragraf Anda.png');
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,41 +21,76 @@
             color: #333;
             background-color: pink;
         }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-            width: 100%;
-            max-width: 500px;
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('assets/Teks Paragraf Anda.png');
+            background-size: cover;
+            background-position: 75%;
+            background-attachment: fixed;
+            filter: blur(2px);
+            z-index: -1;
+            transform: translateZ(0); /* fix for some rendering issues */
         }
+
+        .container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 10px 40px 30px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 600px;
+            transition: transform 0.3s;
+        } 
+        
         h2 {
             color: #E37383;
             text-align: center;
+            margin-bottom: 25px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px 30px;
         }
         .form-group {
-            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column; 
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+         label {
+            margin-bottom: 6px;
             font-weight: bold;
         }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
+
+        input, select, textarea {
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 8px;
             background-color: #f9f9f9;
             color: #333;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            resize: none;
         }
-        .form-group input[type="date"],
-        .form-group input[type="number"] {
-            padding: 8px;
+        input[type="date"], input[type="number"] {
+            padding: 10px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #E37383;
+        }
+        .full-width {
+            grid-column: 1 / -1;
         }
         .button-group {
+            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
         }
@@ -62,41 +100,38 @@
             border: none;
             padding: 12px 20px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 16px;
             width: 48%;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .button-group button:hover {
-            background-color: pink;
-        }
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: pink;
+            background-color: #db7093;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Formulir Pemesanan Bunga</h2>
+        <h2>Formulir Pemesanan Kue</h2><br>
         <form id="orderForm" action="connect/booking.php" method="POST">
             <div class="form-group">
                 <label for="nama">Nama:</label>
                 <input type="text" id="nama" name="nama" required>
             </div>
             <div class="form-group">
-                <label for="alamat">Alamat:</label>
-                <input type="text" id="alamat" name="alamat" required>
-            </div>
-            <div class="form-group">
                 <label for="no-telpon">No. Telepon:</label>
-                <input type="tel" id="no-telpon" name="no-telpon" required>
+                <input type="tel" id="no_telpon" name="no_telpon" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div class="form-group">
+             <div class="form-group full-width">
+                <label for="alamat">Alamat:</label>
+                <textarea id="alamat" name="alamat" rows="1" required></textarea>
+            </div>
+            <div class="form-group full-width">
                 <label for="pesanan">Pesanan:</label>
                 <textarea id="pesanan" name="pesanan" rows="4" required readonly></textarea>
             </div>
@@ -114,7 +149,7 @@
                 <input type="date" id="tanggal-pengambilan" name="tanggal-pengambilan" required>
             </div>
 
-            <div class="form-group button-group">
+            <div class="button-group">
                 <button type="button" onclick="history.back()">Kembali</button>
                 <button type="submit">Submit</button>
             </div>

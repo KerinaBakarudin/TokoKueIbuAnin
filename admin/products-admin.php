@@ -14,35 +14,49 @@
 
         body {
             margin: 0;
-            padding: 0;
+            padding-top: 110px;
             background: #f8f9fa;
             background-size: cover;
         }
 
         .container-fluid {
             background-color: pink;
-            padding: 15px;
         }
 
-        .navbar-brand {
-            font-size: 30px;
+        .navbar {
+            /* background-color: rgba(0, 0, 0, 0.4);  */
+            background-color: pink;
+            position: absolute;
+        }
+
+        .navbar-brand:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-nav .nav-link {
             color: white;
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
         }
 
         .navbar-nav .nav-link.active {
-            color: white;
+            color:rgb(249, 147, 164);
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-text i {
             font-size: 20px;
             margin-right: 10px;
+        }
+
+        .navbar-text a{
+            text-decoration: none;
+            
         }
 
         .products {
@@ -189,24 +203,29 @@
             padding: 0 105px;
             margin-bottom: 2px; 
         }
+
+        .filter-btn:hover {
+            background-color: #f78fb3;
+            color: white;
+            border-color: #f78fb3;
+        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Floriest</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#"><img src="../assets/logo toko.png" width="100" height=auto/> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home-admin.php">Home</a>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="home-admin.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="products-admin.php">Products</a>
+                        <a class="nav-link active" href="products-admin.php">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="order-admin.php">Order</a>
@@ -216,8 +235,10 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
+                <a style="color: white;">
                     <i class="fa-solid fa-user" style="color: white"></i>
                     Hi, Admin
+                </a>
                 </span>
             </div>
         </div>
@@ -230,12 +251,17 @@
                 <i class="fa-solid fa-plus"></i> Add Product
             </button>
         </div>
+        <div class="text-center mb-4">
+            <button class="btn btn-outline-danger filter-btn" data-filter="all">Semua</button>
+            <button class="btn btn-outline-danger filter-btn" data-filter="kue_basah">Kue Basah</button>
+            <button class="btn btn-outline-danger filter-btn" data-filter="kue_kering">Kue Kering</button>
+        </div>
         <div class="box-container">
             <?php
             include '../connect/koneksi.php';
             $result = $conn->query("SELECT * FROM products");
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="box">';
+                echo '<div class="box ' . $row['category'] . '">'; 
                 echo '    <div class="image">';
                 echo '        <img src="flower/' . $row['flowerImage'] . '" alt="' . $row['flowerName'] . '">';
                 echo '        <div class="icons">';
@@ -253,5 +279,25 @@
         </div>
     </section>
 </body>
+
+<script>
+     // === Filter Produk Berdasarkan Kategori ===
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const boxes = document.querySelectorAll('.box');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+
+            boxes.forEach(box => {
+                if (filter === 'all' || box.classList.contains(filter)) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 
 </html>

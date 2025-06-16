@@ -68,6 +68,19 @@
         background-color: #e83e8c;
     }
 
+    select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e83e8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    }
+
+
     </style>
 </head>
 <body>
@@ -82,8 +95,16 @@
         
         <label for="flowerImage">Gambar Produk:</label>
         <input type="file" id="flowerImage" name="flowerImage" accept="image/*" required>
+
+        <label for="category">Kategori:</label>
+        <select id="category" name="category" required>
+            <option value="">-- Pilih Kategori --</option>
+            <option value="kue_basah">Kue Basah</option>
+            <option value="kue_kering">Kue Kering</option>
+        </select>
         
         <button type="submit">Add Product</button>
+
         </form>
     </div>
 
@@ -92,6 +113,7 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $flowerName = $_POST['flowerName'];
         $flowerPrice = $_POST['flowerPrice'];
+        $category = $_POST['category'];
 
         // File yang diunggah
         $nama_file = $_FILES['flowerImage']['name'];
@@ -102,8 +124,9 @@
 
         // Cek apakah file berhasil diunggah
         if (move_uploaded_file($tmp_file, $target_file)) {
-            $stmt = $conn->prepare("INSERT INTO products (flowerName, flowerPrice, flowerImage) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $flowerName, $flowerPrice, $nama_file);
+            $stmt = $conn->prepare("INSERT INTO products (flowerName, flowerPrice, flowerImage, category) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $flowerName, $flowerPrice, $nama_file, $category);
+
             if ($stmt->execute()){
                 header("Location: products-admin.php");
             } else{

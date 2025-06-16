@@ -1,3 +1,30 @@
+<?php
+session_start();
+include 'connect/koneksi.php'; // Assuming this file contains your DB connection
+
+// Check if user is logged in
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    // Prepare statement to prevent SQL injection
+    $stmt = $conn->prepare("SELECT nama FROM customer WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result(); // Store the result
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($nama);
+        $stmt->fetch();
+        $displayName = htmlspecialchars($nama);
+    } else {
+        $displayName = 'sweett'; // Default if no name found
+    }
+    $stmt->close();
+} else {
+    $displayName = 'sweety';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +36,7 @@
     <title>Products</title>
     <style>
         * {
-            font-family: 'Lucida Sans';
+            font-family:'Lucida Sans';
         }
 
         body {
@@ -21,23 +48,33 @@
 
         .container-fluid {
             background-color: pink;
-            padding: 15px;
+
         }
 
-        .navbar-brand {
-            font-size: 30px;
+        .navbar {
+            /* background-color: rgba(0, 0, 0, 0.4);  */
+            background-color: pink;
+            position: absolute;
+        }
+
+        .navbar-brand:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-nav .nav-link {
             color: white;
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
         }
 
         .navbar-nav .nav-link.active {
-            color: white;
+            color:rgb(249, 147, 164);
             font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover{
+            color: rgb(249, 147, 164);
         }
 
         .navbar-text i {
@@ -45,8 +82,14 @@
             margin-right: 10px;
         }
 
+        .navbar-text a{
+            text-decoration: none;
+            
+        }
+
         .products {
             padding: 30px 0;
+            margin-top: 120px;
         }
 
         .add-product-btn {
@@ -174,9 +217,10 @@
 
         .heading {
             text-align: center;
-            font-size: 36px;
+            font-size: 28px;
             color: #333;
             margin-bottom: 30px;
+            font-weight: bold;
         }
 
         .heading span {
@@ -189,24 +233,29 @@
             padding: 0 105px;
             margin-bottom: 2px; 
         }
+
+        .filter-btn:hover {
+            background-color: #f78fb3;
+            color: white;
+            border-color: #f78fb3;
+        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Floriest</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#"><img src="assets/logo toko.png" width="100" height=auto/> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home.php">Home</a>
+                        <a class="nav-link" aria-current="page" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="products.php">Products</a>
+                        <a class="nav-link active" href="products.php">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="order-cust.php">Order</a>
@@ -216,21 +265,29 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <i class="fa-solid fa-user" style="color: white"></i>
-                    Hi, Flover
+                <a href="profil.php" style="color: white;">
+                    <i class="fa-solid fa-user"></i>
+                    Hi, <?= $displayName ?>
+                </a>
                 </span>
             </div>
         </div>
     </nav>
 
     <section class="products">
-        <h1 class="heading">Our <span>Products</span></h1>
+        <h1 class="heading">The Sweet Stuff We Baked With ❤️, <span>Just for You</span></h1>
+        <div class="text-center mb-4">
+            <button class="btn btn-outline-danger filter-btn" data-filter="all">Semua</button>
+            <button class="btn btn-outline-danger filter-btn" data-filter="kue_basah">Kue Basah</button>
+            <button class="btn btn-outline-danger filter-btn" data-filter="kue_kering">Kue Kering</button>
+        </div>
+
         <div class="box-container">
             <?php
             include 'connect/koneksi.php';
             $result = $conn->query("SELECT * FROM products");
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="box">';
+                echo '<div class="box ' . $row['category'] . '">'; 
                 echo '    <div class="image">';
                 echo '        <img src="admin/flower/' . $row['flowerImage'] . '" alt="' . $row['flowerName'] . '">';
                 echo '        <div class="icons">';
@@ -243,9 +300,58 @@
                 echo '    </div>';
                 echo '</div>';
             }
+
             ?>
         </div>
     </section>
+
+        <footer style="background-color: rgb(249, 147, 164); color: white; padding: 40px; font-family: Arial, sans-serif;">
+        <div class="container" style="display: flex; justify-content: space-between;">
+            <!-- Our Stores Section -->
+            <div style="flex: 1; margin-right: 15px;">
+                <h5>Our Store</h5>
+                <ul style="padding-left: 0; list-style: none;">
+                    <li>📍 Toko Kue Ibu Anin</li>
+                </ul>
+            </div>
+
+            <div style="flex: 1; margin-right: 50px;">
+                <h5>Operational Hours</h5>
+                <p>Everyday: 09.00 - 21.00</p>
+            </div>
+
+            <!-- Contact Us Section -->
+            <div style="flex: 1; margin-right: 50px;">
+                <h5>Contact Us</h5>
+                <i class="fab fa-whatsapp" style="font-size: 20px;"></i> +62 812-3456-7980
+            </div>
+
+            <!-- Available On Section -->
+            <div style="flex: 1;">
+                <h5>Available On</h5>
+                <ul style="padding-left: 0; list-style: none;">
+                    <!-- <li><i class="fab fa-gojek" style="font-size: 18px;">  </i>  Toko Kue Ibu Anin</li>
+                    <li><i class="fab fa-grab" style="font-size: 18px;">  </i>  TokoKueIbuAnin</li>
+                    <li><i class="fab fa-shopee" style="font-size: 18px;">  </i>  TokoKueIbuAnin</li> -->
+                    <li>GoFood | GrabFood | ShopeeFood</li>
+                </ul>
+            </div>
+
+            <div style="flex: 1;">
+                <!-- Social Media Section -->
+                <h5>Social Media</h5>
+                <ul style="padding-left: 0; list-style: none;">
+                    <li style="margin-bottom: 5px;"><i class="fab fa-instagram" style="font-size: 18px;">  </i>  @TokoKueIbuAnin</li>
+                    <li style="margin-bottom: 5px;"><i class="fab fa-tiktok" style="font-size: 18px;">  </i>  @TokoKueIbuAnin</li>
+                    <li><i class="fab fa-facebook" style="font-size: 18px;">  </i>  @TokoKueIbuAnin</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Notice -->
+        <hr style="border: 1px solid #f1f1f1; margin-top: 20px;">
+        <p style="text-align: center; margin-bottom: 10px;">Copyright &copy; 2025 Kelompok 11. All Rights Reserved.</p>
+    </footer>
 </body>
 
 <script>
@@ -272,6 +378,24 @@
 
             localStorage.setItem('cart', JSON.stringify(cart));
             alert('Product added to cart');
+        });
+    });
+
+     // === Filter Produk Berdasarkan Kategori ===
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const boxes = document.querySelectorAll('.box');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+
+            boxes.forEach(box => {
+                if (filter === 'all' || box.classList.contains(filter)) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
         });
     });
 </script>

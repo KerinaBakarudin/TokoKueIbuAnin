@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floriest</title>
+    <title>Buat Akun</title>
     <script src="https://kit.fontawesome.com/97216fb713.js" crossorigin="anonymous"></script>
 
     <style>
@@ -13,7 +13,7 @@
 
         body {
             margin: 0;
-            background-image: url('assets/bg-flower.jpg');
+            background-image: url('assets/Teks Paragraf Anda.png');
             background-size: cover;
             background-position: 75%;
             background-attachment: fixed;

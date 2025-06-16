@@ -1,3 +1,37 @@
+<?php
+require_once 'vendor/autoload.php'; // Composer autoload Midtrans
+include 'connect/koneksi.php'; // Koneksi ke database
+
+// Mendapatkan order ID dari parameter URL
+if (isset($_GET['id'])) {
+    $order_id = $_GET['id'];
+
+    // Ambil data pesanan
+    $query = "SELECT * FROM orders WHERE id = $order_id";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        die('Query Error: ' . mysqli_error($conn));
+    }
+
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $nama = $row['nama'];
+        $alamat = $row['alamat'];
+        $no_telpon = $row['no_telpon'];
+        $email = $row['email'];
+        $pesanan = $row['pesanan'];
+        $total_harga = $row['total_harga'];
+        $tanggal_pemesanan = $row['tanggal_pemesanan'];
+        $tanggal_pengambilan = $row['tanggal_pengambilan'];
+    } else {
+        die('Order not found');
+    }
+} else {
+    die('No order ID provided');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +51,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background : url('assets/pict2.jpeg');
+            background : url('assets/cake.png');
         }
 
         .thank-you-box {
@@ -56,7 +90,7 @@
 <body>
     <div class="thank-you-box">
         <h1>Terima kasih sudah berbelanja</h1>
-        <p>Silahkan ambil pesanan Anda di toko Floriest</p>
+        <p>Pesanan Anda dapat diambil di Toko Kue Ibu Anin pada <?php echo $tanggal_pengambilan; ?></p> 
         <a href="products.php" class="back-button">Back to Products</a>
     </div>
 </body>

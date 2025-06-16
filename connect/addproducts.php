@@ -6,6 +6,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $flowerName = $_POST['flowerName'];
     $flowerPrice = $_POST['flowerPrice'];
+    $category = $_POST['category'];
     
     // Memeriksa apakah file gambar telah diunggah
     if (isset($_FILES['flowerImage']) && $_FILES['flowerImage']['error'] === UPLOAD_ERR_OK) {
@@ -26,8 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Menyimpan data produk ke database
-    $stmt = $conn->prepare("INSERT INTO products (flowerName, flowerPrice, flowerImage) VALUES (?, ?, ?)");
-    $stmt->bind_param("sds", $flowerName, $flowerPrice, $uploadPath);
+    $stmt = $conn->prepare("INSERT INTO products (flowerName, flowerPrice, flowerImage, category) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $flowerName, $flowerPrice, $nama_file, $category);
+
     $stmt->execute();
     
     $stmt->close();
